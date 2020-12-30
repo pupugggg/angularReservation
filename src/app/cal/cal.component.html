@@ -1,18 +1,11 @@
-<table>
-  <thead>
-    <mat-form-field class="example-full-width" appearance="fill">
-      <mat-label>Choose a date</mat-label>
-      <input matInput [matDatepicker]="picker" [formControl]="selectedDate" [readonly]="true" [(ngModel)]="viewDate" />
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-    <button mat-raised-button (click)="picker.open()" class="btn btn-primary" >select Date</button>
-  </thead>
-  <tbody>
-    <tr >
-      <td ></td>
-    </tr>
-  </tbody>
-</table>
+
+<mat-form-field class="example-full-width" appearance="fill">
+  <mat-label>Choose a date</mat-label>
+  <input matInput [matDatepicker]="picker" [formControl]="selectedDate" [readonly]="true" [(ngModel)]="viewDate" />
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+<button mat-raised-button (click)="picker.open()" class="btn btn-primary" >select Date</button>
+
 
 <button *ngIf="auth.user$ | async as user" class="btn btn-primary float-right" (click)="addEvent()">
   Add new
@@ -75,18 +68,23 @@
     </div>
     <form [formGroup]="eventForm">
       <div>
-        involvers:
+        Event Name:
+        <pre>{{modalData?.event.title}}</pre>
+        <input class="pre" type="text" formControlName="title">
+      </div>
+      <div>
+        Involvers:
         <pre *ngFor="let involver of modalData?.event.involvers">{{involver}}</pre>
         <input class="pre" type="text" formControlName="involvers">
       </div>
     
       <div>
-        description:
+        Description:
         <pre>{{modalData?.event.description}}</pre>
         <input class="pre" type="text" formControlName="description">
       </div>
       <div>
-        location:
+        Location:
         <pre>{{modalData?.event.location}}</pre>
         <input class="pre" type="text" formControlName="location">
       </div>
@@ -98,6 +96,10 @@
   </div>
   <ng-template #woLogin>
   <div class="modal-body">
+    <div>
+      Event Name:
+      <pre>{{modalData?.event.title}}</pre>
+    </div>
     <div>
       Event Owner:
       <pre>{{modalData?.event.owner}}</pre>
@@ -111,7 +113,7 @@
       <pre>{{modalData?.event.description}}</pre>
     </div>
     <div>
-      location:
+      Location:
       <pre>{{modalData?.event.location}}</pre>
     </div>
   </div>
@@ -120,7 +122,7 @@
     <button type="button" class="btn btn-outline-secondary" (click)="close()">
       OK
     </button>
-    <button style="background-color: #FF0000; color: #ffffff;" type="button" class="btn btn-outline-secondary float-left" (click)="deleteEvent(modalData?.event);close();">
+    <button *ngIf="auth.user$ | async as user" style="background-color: #FF0000; color: #ffffff;" type="button" class="btn btn-outline-secondary float-left" (click)="deleteEvent(modalData?.event);close();">
       DELETE
     </button>
   </div>

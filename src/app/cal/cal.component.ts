@@ -38,6 +38,7 @@ import {colors} from '../colors';
 export class CalComponent implements OnInit {
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
   eventForm=new FormGroup({
+    title:new FormControl("",[Validators.required]),
     involvers:new FormControl("",[Validators.required]),
     description:new FormControl("",[Validators.required]),
     location:new FormControl("",[Validators.required])
@@ -82,10 +83,15 @@ export class CalComponent implements OnInit {
       return;
     }
     //todo spilt property
-    console.log(this.eventForm.value["involvers"].spilt(","));
-    return;
+    let involversStr:string=this.eventForm.value["involvers"];
+    event.location=this.eventForm.value["location"];
+    event.description=this.eventForm.value["description"];
+    event.involvers=this.eventForm.value["involvers"].split(",");
+    event.involvers=event.involvers.filter((e)=>{return (e!=null && e!="");});
+    event.title=this.eventForm.value["title"];
+    console.log(event)
     this.reservationService.update(event).subscribe(()=>{this.refresh.next()
-      this.eventForm.setValue({location:"",description:"",involvers:""})
+      this.eventForm.setValue({location:"",description:"",involvers:"",title:""})
     });
   }
 
