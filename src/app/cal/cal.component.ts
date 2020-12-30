@@ -44,7 +44,7 @@ export class CalComponent implements OnInit {
     location:new FormControl("",[Validators.required])
   });
   selectedDate:FormControl;
-  currentUserInfo:any;
+  currentUserInfo:any=null;
   events:CalendarEvent[]/*=[{
     id:0,
     owner:"guy P",
@@ -100,9 +100,10 @@ export class CalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getEvent();
-    this.selectedDate=new FormControl(new Date(),[Validators.required]);
     this.auth.user$.subscribe(u=>{this.currentUserInfo=u;console.log(this.currentUserInfo);});
+    this.selectedDate=new FormControl(new Date(),[Validators.required]);
+    this.getEvent();
+    
   }
   strToDate(event:CalendarEvent):CalendarEvent{
     return {
@@ -111,7 +112,21 @@ export class CalComponent implements OnInit {
       end:new Date(event.end)
     } as CalendarEvent;
   }
-
+  setEventPermission(event:CalendarEvent):CalendarEvent{
+    if(this.currentUserInfo==null||this.currentUserInfo.name==null||this.currentUserInfo.name!=event.owner)
+    {
+      return {
+        ...event,
+      draggable:false,
+      resizable: {
+        beforeStart: false,
+        afterEnd: false,
+      },
+      color:colors.blue
+      }
+    }
+    return event;
+  }
   
   getEvent(){
     this.reservationService.get().subscribe(
@@ -121,7 +136,7 @@ export class CalComponent implements OnInit {
         for(let i=0;i<res.length;i++)
         {
           this.events.push(
-            this.strToDate(res[i])
+            this.setEventPermission(this.strToDate(res[i]))
           );
         }
         console.log(this.events);

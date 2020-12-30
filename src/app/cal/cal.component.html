@@ -70,27 +70,27 @@
       <div>
         Event Name:
         <pre>{{modalData?.event.title}}</pre>
-        <input class="pre" type="text" formControlName="title">
+        <input *ngIf="modalData?.event.owner==currentUserInfo.name" class="pre" type="text" formControlName="title">
       </div>
       <div>
-        Involvers:
+        Involvers(involver Name must seperate by ","):
         <pre *ngFor="let involver of modalData?.event.involvers">{{involver}}</pre>
-        <input class="pre" type="text" formControlName="involvers">
+        <input *ngIf="modalData?.event.owner==currentUserInfo.name" class="pre" type="text" formControlName="involvers">
       </div>
     
       <div>
         Description:
         <pre>{{modalData?.event.description}}</pre>
-        <input class="pre" type="text" formControlName="description">
+        <input *ngIf="modalData?.event.owner==currentUserInfo.name" class="pre" type="text" formControlName="description">
       </div>
       <div>
         Location:
         <pre>{{modalData?.event.location}}</pre>
-        <input class="pre" type="text" formControlName="location">
+        <input *ngIf="modalData?.event.owner==currentUserInfo.name" class="pre" type="text" formControlName="location">
       </div>
       <div>
         <p style="color:#FF0000;" *ngIf="!eventFormValid">time overlapped! , choose another location or adjust the period</p>
-        <button type="submit" [disabled]="!eventForm.valid" (click)="onEventFormSubmit(modalData?.event)">Submit</button>
+        <button *ngIf="modalData?.event.owner==currentUserInfo.name" type="submit" [disabled]="!eventForm.valid" (click)="onEventFormSubmit(modalData?.event)">Submit</button>
       </div>
     </form>
   </div>
@@ -122,8 +122,10 @@
     <button type="button" class="btn btn-outline-secondary" (click)="close()">
       OK
     </button>
-    <button *ngIf="auth.user$ | async as user" style="background-color: #FF0000; color: #ffffff;" type="button" class="btn btn-outline-secondary float-left" (click)="deleteEvent(modalData?.event);close();">
+    <div *ngIf="auth.user$ | async as user">
+    <button  *ngIf="modalData?.event.owner==currentUserInfo.name" style="background-color: #FF0000; color: #ffffff;" type="button" class="btn btn-outline-secondary float-left" (click)="deleteEvent(modalData?.event);close();">
       DELETE
     </button>
+    </div>
   </div>
 </ng-template>
