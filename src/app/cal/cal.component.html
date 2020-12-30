@@ -1,4 +1,3 @@
-<p>{{selectedDate.value}}</p>
 <table>
   <thead>
     <mat-form-field class="example-full-width" appearance="fill">
@@ -6,7 +5,7 @@
       <input matInput [matDatepicker]="picker" [formControl]="selectedDate" [readonly]="true" [(ngModel)]="viewDate" />
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
-    <button mat-raised-button (click)="picker.open()">select Date</button>
+    <button mat-raised-button (click)="picker.open()" class="btn btn-primary" >select Date</button>
   </thead>
   <tbody>
     <tr >
@@ -20,9 +19,6 @@
 </button>
 <button  class="btn btn-primary float-right" (click)="getEvent()">
   getEvent
-</button>
-<button  class="btn btn-primary float-right" (click)="deleteEvent(this.events[0])">
-  deleteEvent
 </button>
 
 <br/><br/>
@@ -80,18 +76,22 @@
     <form [formGroup]="eventForm">
       <div>
         involvers:
+        <pre *ngFor="let involver of modalData?.event.involvers">{{involver}}</pre>
         <input class="pre" type="text" formControlName="involvers">
       </div>
     
       <div>
-        description
+        description:
+        <pre>{{modalData?.event.description}}</pre>
         <input class="pre" type="text" formControlName="description">
       </div>
       <div>
-        location
+        location:
+        <pre>{{modalData?.event.location}}</pre>
         <input class="pre" type="text" formControlName="location">
       </div>
       <div>
+        <p style="color:#FF0000;" *ngIf="!eventFormValid">time overlapped! , choose another location or adjust the period</p>
         <button type="submit" [disabled]="!eventForm.valid" (click)="onEventFormSubmit(modalData?.event)">Submit</button>
       </div>
     </form>
@@ -119,6 +119,9 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary" (click)="close()">
       OK
+    </button>
+    <button style="background-color: #FF0000; color: #ffffff;" type="button" class="btn btn-outline-secondary float-left" (click)="deleteEvent(modalData?.event);close();">
+      DELETE
     </button>
   </div>
 </ng-template>

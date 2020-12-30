@@ -60,11 +60,11 @@ export class CalComponent implements OnInit {
     },
     draggable: true,
    }]*/;
-
+   eventFormValid:boolean=true;
    //todo 判斷結果邏輯 update 資料 12/29
   onEventFormSubmit(event:CalendarEvent):void{
     console.log(event);
-    let locations:CalendarEvent[]=this.events.filter((e)=>e.location==this.eventForm.value.location);
+    let locations:CalendarEvent[]=this.events.filter((e)=>e.location==this.eventForm.value.location && e!==event);
     console.log(locations);
     let flag:boolean=true;
     for(let i=0;i<locations.length;i++)
@@ -75,10 +75,18 @@ export class CalComponent implements OnInit {
         break;
       }
     }
-    if(flag){
-      
+    this.eventFormValid=flag;
+    
+    if(!flag){
+      this.eventForm.setValue({location:"",description:"",involvers:""})
+      return;
     }
-    console.log(flag)
+    //todo spilt property
+    console.log(this.eventForm.value["involvers"].spilt(","));
+    return;
+    this.reservationService.update(event).subscribe(()=>{this.refresh.next()
+      this.eventForm.setValue({location:"",description:"",involvers:""})
+    });
   }
 
   constructor(private reservationService:ReservationService,private modal: NgbModal ,public auth:AuthService) { 
