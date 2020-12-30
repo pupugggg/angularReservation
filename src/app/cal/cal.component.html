@@ -1,0 +1,124 @@
+<p>{{selectedDate.value}}</p>
+<table>
+  <thead>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker" [formControl]="selectedDate" [readonly]="true" [(ngModel)]="viewDate" />
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <button mat-raised-button (click)="picker.open()">select Date</button>
+  </thead>
+  <tbody>
+    <tr >
+      <td ></td>
+    </tr>
+  </tbody>
+</table>
+
+<button *ngIf="auth.user$ | async as user" class="btn btn-primary float-right" (click)="addEvent()">
+  Add new
+</button>
+<button  class="btn btn-primary float-right" (click)="getEvent()">
+  getEvent
+</button>
+<button  class="btn btn-primary float-right" (click)="deleteEvent(this.events[0])">
+  deleteEvent
+</button>
+
+<br/><br/>
+
+<mwl-calendar-week-view
+[viewDate]="viewDate"
+[events]="events"
+[refresh]="refresh"
+(eventClicked)="handleEvent('Clicked', $event.event)"
+(eventTimesChanged)="eventTimesChanged($event)"
+
+>
+</mwl-calendar-week-view>
+
+
+
+
+
+<ng-template *ngIf="false" #modalContent let-close="close">
+  <div class="modal-header">
+    <h5 class="modal-title">Event action occurred</h5>
+    <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      Action:
+      <pre>{{ modalData?.action }}</pre>
+    </div>
+    <div>
+      Event:
+      <pre>{{ modalData?.event | json }}</pre>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="close()">
+      OK
+    </button>
+  </div>
+</ng-template>
+
+<ng-template  #modalContent let-close="close">
+  <div class="modal-header">
+    <h5 class="modal-title">Event Details</h5>
+    <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div *ngIf="auth.user$ | async as user; else woLogin" class="modal-body">
+    <div>
+      Event Owner:
+      <pre>{{modalData?.event.owner}}</pre>
+    </div>
+    <form [formGroup]="eventForm">
+      <div>
+        involvers:
+        <input class="pre" type="text" formControlName="involvers">
+      </div>
+    
+      <div>
+        description
+        <input class="pre" type="text" formControlName="description">
+      </div>
+      <div>
+        location
+        <input class="pre" type="text" formControlName="location">
+      </div>
+      <div>
+        <button type="submit" [disabled]="!eventForm.valid" (click)="onEventFormSubmit(modalData?.event)">Submit</button>
+      </div>
+    </form>
+  </div>
+  <ng-template #woLogin>
+  <div class="modal-body">
+    <div>
+      Event Owner:
+      <pre>{{modalData?.event.owner}}</pre>
+    </div>
+    <div>
+      Involvers:
+      <pre *ngFor="let involver of modalData?.event.involvers">{{involver}}</pre>
+    </div>
+    <div>
+      Description:
+      <pre>{{modalData?.event.description}}</pre>
+    </div>
+    <div>
+      location:
+      <pre>{{modalData?.event.location}}</pre>
+    </div>
+  </div>
+</ng-template>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="close()">
+      OK
+    </button>
+  </div>
+</ng-template>
