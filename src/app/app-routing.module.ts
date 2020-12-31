@@ -4,7 +4,8 @@ import {CalComponent} from './cal/cal.component'
 import {GuardGuard} from './guard.guard'
 const routes: Routes = [
   {path:'cal',component:CalComponent},
-  {path:'',redirectTo:'/cal',pathMatch:'full'}
+  {path:'',redirectTo:'/cal',pathMatch:'full'},
+  {path:'**',redirectTo:'/cal',pathMatch:'full'}
 ];
 
 @NgModule({

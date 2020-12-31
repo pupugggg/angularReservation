@@ -43,7 +43,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns'
     ReactiveFormsModule,
     MatInputModule,
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(InMemoryBackendService,{dataEncapsulation: false}),
+    //HttpClientInMemoryWebApiModule.forRoot(InMemoryBackendService,{dataEncapsulation: false}),
     NgbModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
     

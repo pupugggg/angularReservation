@@ -132,10 +132,12 @@ export class CalComponent implements OnInit {
     this.reservationService.get().subscribe(
       (res)=>
       {
+        console.log(res);
         this.events=[];
         for(let i=0;i<res.length;i++)
         {
           this.events.push(
+            //res[i]
             this.setEventPermission(this.strToDate(res[i]))
           );
         }
@@ -272,8 +274,8 @@ export class CalComponent implements OnInit {
       beforeStart: true,
       afterEnd: true,
       },
-      owner:this.currentUserInfo.name,
-      involvers:[this.currentUserInfo.name],
+      owner:"",//this.currentUserInfo.name,
+      involvers:[/*this.currentUserInfo.name*/],
       description:"",
       location:"",
     } as CalendarEvent)

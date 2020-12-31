@@ -6,8 +6,8 @@
 </mat-form-field>
 <button mat-raised-button (click)="picker.open()" class="btn btn-primary" >select Date</button>
 
-
-<button *ngIf="auth.user$ | async as user" class="btn btn-primary float-right" (click)="addEvent()">
+<div *ngIf="auth.user$ | async as user"></div>
+<button class="btn btn-primary float-right" (click)="addEvent()">
   Add new
 </button>
 <button  class="btn btn-primary float-right" (click)="getEvent()">

@@ -11,7 +11,8 @@ export class ReservationService {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
-  dataUrl:string="api/events";
+  //"http://123.193.99.181:25565/reserve"
+  dataUrl:string=/*"api/events"*/"http://123.193.99.181:25565/events";
   constructor(private httpClient:HttpClient) { }
   get():Observable<CalendarEvent[]>{
     return this.httpClient.get<CalendarEvent[]>(this.dataUrl)
