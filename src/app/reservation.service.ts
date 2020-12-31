@@ -11,7 +11,7 @@ export class ReservationService {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
-  //"http://123.193.99.181:25565/reserve"
+ 
   dataUrl:string=/*"api/events"*/"http://123.193.99.181:25565/events";
   constructor(private httpClient:HttpClient) { }
   get():Observable<CalendarEvent[]>{
@@ -45,6 +45,11 @@ export class ReservationService {
   delete(event:CalendarEvent):Observable<CalendarEvent>{
     return this.httpClient.delete<CalendarEvent>(this.dataUrl+`/${event.id}`,this.httpOptions).pipe(
       catchError(this.handleError<CalendarEvent>('deleteEvent'))
+    );
+  }
+  sentEmailToSever(emails:String[],event:CalendarEvent):Observable<any>{
+    return this.httpClient.post("http://123.193.99.181:25565/email",{emails:emails,event:event},this.httpOptions).pipe(
+      catchError(this.handleError<string[]>("sendEmail"))
     );
   }
 

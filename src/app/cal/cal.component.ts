@@ -44,6 +44,8 @@ export class CalComponent implements OnInit {
     location:new FormControl("",[Validators.required])
   });
   selectedDate:FormControl;
+  emailForm=new FormGroup({email:new FormControl("",[Validators.email,Validators.required])});
+  emails:string[]=[];
   currentUserInfo:any=null;
   events:CalendarEvent[]/*=[{
     id:0,
@@ -94,15 +96,29 @@ export class CalComponent implements OnInit {
       this.eventForm.setValue({location:"",description:"",involvers:"",title:""})
     });
   }
+  addEmail(){
+    console.log(this.emailForm.value["email"])
+    this.emails.push(this.emailForm.value["email"]);
+  }
+  popEmail(){
+    if(!this.emails){return;}
+    this.emails.pop();
+  }
+  sendEmail(event:CalendarEvent){
+    this.reservationService.sentEmailToSever(this.emails,event).subscribe(()=>{
+      this.emailForm.setValue({email:""});
+      this.emails=[];
+    })
+  }
+
 
   constructor(private reservationService:ReservationService,private modal: NgbModal ,public auth:AuthService) { 
     
   }
 
   ngOnInit(): void {
-    this.auth.user$.subscribe(u=>{this.currentUserInfo=u;console.log(this.currentUserInfo);});
+    this.auth.user$.subscribe(u=>{this.currentUserInfo=u;console.log(this.currentUserInfo);this.getEvent();});
     this.selectedDate=new FormControl(new Date(),[Validators.required]);
-    this.getEvent();
     
   }
   strToDate(event:CalendarEvent):CalendarEvent{
@@ -274,8 +290,8 @@ export class CalComponent implements OnInit {
       beforeStart: true,
       afterEnd: true,
       },
-      owner:"",//this.currentUserInfo.name,
-      involvers:[/*this.currentUserInfo.name*/],
+      owner:this.currentUserInfo.name,
+      involvers:[this.currentUserInfo.name],
       description:"",
       location:"",
     } as CalendarEvent)
