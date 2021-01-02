@@ -34,7 +34,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns'
     AppRoutingModule,
     AuthModule.forRoot({
       domain: 'dev-d9uhidtt.jp.auth0.com',
-      clientId: 'DPEWomqmj7Ty93pFVphaoWeRyHIhIC8J'
+      clientId: 'DPEWomqmj7Ty93pFVphaoWeRyHIhIC8J',
+      cacheLocation: 'localstorage'
     }),
     BrowserAnimationsModule,
     MatDatepickerModule,
@@ -51,4 +52,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns'
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+
+export class AppModule {
+
+ }
