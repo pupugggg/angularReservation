@@ -267,8 +267,20 @@ export class CalComponent implements OnInit {
       }
       return iEvent;
     });*/
+    let sameLocEvent=this.events.filter((ievent)=>{return ((ievent.location===event.location)&&!(ievent==event))});
+    console.log(sameLocEvent);
+    for(let i=0;i<sameLocEvent.length;i++)
+    {
+      if(areIntervalsOverlapping({start:sameLocEvent[i].start,end:sameLocEvent[i].end},{start:newStart,end:newEnd}))
+      {
+        console.log("event overlap!");
+        return;
+      }
+    }
+
     event.start=newStart;
     event.end=newEnd;
+    
     this.reservationService.update(event).subscribe(()=>{
       this.refresh.next();
     });
