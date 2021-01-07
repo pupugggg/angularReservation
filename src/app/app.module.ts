@@ -13,6 +13,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import {ReactiveFormsModule } from "@angular/forms";
 import { MatInputModule } from '@angular/material/input';
+import {FormsModule} from '@angular/forms'
 
 import {HttpClientModule} from '@angular/common/http'
 import {HttpClientInMemoryWebApiModule} from 'angular-in-memory-web-api'
@@ -21,7 +22,7 @@ import {InMemoryBackendService} from './in-memory-backend.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns'
-
+//core of angular framework
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +45,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns'
     ReactiveFormsModule,
     MatInputModule,
     HttpClientModule,
+    FormsModule,
     //HttpClientInMemoryWebApiModule.forRoot(InMemoryBackendService,{dataEncapsulation: false}),
     NgbModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),

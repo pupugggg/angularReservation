@@ -9,7 +9,7 @@ import { DOCUMENT } from '@angular/common';
 export class LoginlogoutComponent implements OnInit {
 
   constructor(@Inject(DOCUMENT) public document: Document,public auth:AuthService ) { }
-
+  //print user login state in console
   ngOnInit(): void {
     this.auth.isAuthenticated$.subscribe(b =>console.log(b));
   }

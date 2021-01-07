@@ -6,7 +6,7 @@ import {AuthService} from '@auth0/auth0-angular'
 @Injectable({
   providedIn: 'root'
 })
-
+//guard to prvent user navigate invalid route
 export class GuardGuard implements CanActivate {
   constructor(private auth:AuthService){}
   canActivate(

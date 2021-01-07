@@ -1,3 +1,4 @@
+//the interface for the colors
 export const colors: any = {
     red: {
       primary: '#ad2121',
