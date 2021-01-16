@@ -13,6 +13,6 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## This project is created by:
 * Item frontend:
-		* Item angular
+	* Item angular
 * Item backend:
-		* Item flask
+	* Item flask
